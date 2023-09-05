@@ -12,5 +12,4 @@ describe("Tho test Login functionality and navigate to dashboard", () => {
         cy.get('[type="submit"]').click({ force: true })
         cy.get(".oxd-main-menu-item-wrapper").contains("Dashboard").should("have.class", "oxd-main-menu-item active")
     })
-
 })
