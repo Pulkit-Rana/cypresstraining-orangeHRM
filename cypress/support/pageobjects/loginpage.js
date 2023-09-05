@@ -19,5 +19,4 @@ export class LoginPage {
     getDashboardTab() {
         return cy.get(".oxd-main-menu-item-wrapper")
     }
-
 }

@@ -18,6 +18,5 @@ describe("Tho test Login functionality and navigate to dashboard", () => {
             loginpage.getLoginSubmiButton().click({ force: true })
             loginpage.getDashboardTab().contains("Dashboard").should("have.class", "oxd-main-menu-item active")
         })
-
     })
 })
