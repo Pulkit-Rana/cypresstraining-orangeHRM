@@ -1,10 +1,12 @@
+/// <reference types="cypress" />
+
 import { LoginPage } from "../../support/pageobjects/loginpage"
 
 const loginpage = new LoginPage()
 
 describe("Tho test Login functionality and navigate to dashboard", () => {
     beforeEach(() => {
-        cy.fixture("/loginpage.json").as("login")
+        cy.fixture("/Loginpage.json").as("login")
         cy.get("@login").then((login) => {
             cy.login(login.userName, login.password)
         })
@@ -16,7 +18,21 @@ describe("Tho test Login functionality and navigate to dashboard", () => {
 
     it("Validating the tiles on the dashboard tab", () => {
         cy.get(".oxd-sheet.oxd-sheet--rounded.oxd-sheet--white.orangehrm-dashboard-widget").should("have.length", 7)
+<<<<<<< HEAD
      
         })
+=======
+        cy.get(".oxd-grid-3.orangehrm-dashboard-grid").should("be.visible").then($ele => {
+            expect($ele.text())
+                .include("Time at Work")
+                .and.include("My Action")
+                .and.include("Quick Launch")
+                .and.include("Buzz Latest Posts")
+                .and.include("Employees on Leave Today")
+                .and.include("Employee Distribution by Sub Unit")
+                .and.include("Employee Distribution by Location")
+        })
+    })
+>>>>>>> 59342886862fed9a507d6bbdaf6fdaeb418c2d4e
 })
 

@@ -34,7 +34,11 @@ Cypress.Commands.add("login", (userName, password) => {
     loginpage.getUserName().type(userName, { force: true })
     loginpage.getuserPassword().type(password, { force: true })
     loginpage.getLoginSubmiButton().click({ force: true })
+<<<<<<< HEAD
     loginpage.getSideMenu().contains("Dashboard").should("have.class", "oxd-main-menu-item active")
+=======
+    loginpage.getDashboardTab().contains("Dashboard").should("have.class", "oxd-main-menu-item active")
+>>>>>>> 59342886862fed9a507d6bbdaf6fdaeb418c2d4e
 })
 
 Cypress.Commands.add("logout", () => {
