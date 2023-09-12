@@ -16,7 +16,7 @@ export class LoginPage {
         return cy.get('[type="submit"]')
     }
 
-    getDashboardTab() {
+    getSideMenu() {
         return cy.get(".oxd-main-menu-item-wrapper")
     }
 }
