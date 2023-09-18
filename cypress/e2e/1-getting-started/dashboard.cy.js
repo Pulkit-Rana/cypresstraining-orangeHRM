@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-import { LoginPage } from "../../support/pageobjects/loginpage"
+import { Dashboard } from "../../support/pageobjects/dashboardpage"
 
-const loginpage = new LoginPage()
+const dashboard = new Dashboard()
 
 describe("Tho test Login functionality and navigate to dashboard", () => {
     beforeEach(() => {
@@ -17,8 +17,8 @@ describe("Tho test Login functionality and navigate to dashboard", () => {
     })
 
     it("Validating the tiles on the dashboard tab", () => {
-        cy.get(".oxd-sheet.oxd-sheet--rounded.oxd-sheet--white.orangehrm-dashboard-widget").should("have.length", 7)
-        cy.get(".oxd-grid-3.orangehrm-dashboard-grid").should("be.visible").then($ele => {
+        dashboard.getDashboardTiles().should("have.length", 7)
+        getDashboardPage().should("be.visible").then($ele => {
             expect($ele.text())
                 .include("Time at Work")
                 .and.include("My Action")
