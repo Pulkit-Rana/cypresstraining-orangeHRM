@@ -1,7 +1,7 @@
 {
   "scripts": {
     "postinstall": "",
-    "start": "qa run",
+    "start": "qcypress run",
     "cy:open": "cypress open",
     "test": "npx cypress open"
   },
