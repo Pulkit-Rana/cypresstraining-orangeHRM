@@ -4,7 +4,7 @@
     "postinstall": "",
     "start": "qa run",
     "cy:open": "qa open",
-    "cy:run": "qa run"
+    "cy:run": "npx cypress open"
   },
   "devDependencies": {
     "cypress": "^13.1.0",

@@ -7,16 +7,12 @@ const admin = new Admin()
 
 describe("Tho test Login functionality and navigate to Admin Tab", () => {
     beforeEach(() => {
-        cy.fixture("/loginpage.json").as("login")
-        cy.get("@login").then((login) => {
+        cy.fixture("/adminpage.json").as("xyx")
+        cy.get("@xyz").then((login) => {
             cy.login(login.userName, login.password)
             // cy.visit("/web/index.php/admin/viewSystemUsers")
         })
     })
-
-    // afterEach(() => {
-    //     cy.logout()
-    // })
 
     it("Verify that the user is able to navigate to the Admin Tab & verify the page details", () => {
         navigateToAdminPanel()
@@ -24,7 +20,7 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
 
     it("Verify the headers", () => {
         navigateToAdminPanel()
-        cy.get('.oxd-table-row.oxd-table-row--with-border').eq(0).then(($data) => {
+        cy.get('.oxd-table-row.oxd-table-row--with-border').find("div").then(($data) => {
             expect($data.text())
                 .include("UsernameAscendingDescending")
                 .and.include("User RoleAscendingDescending")
@@ -35,14 +31,16 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
     })
 
     it("Verify that the search functionality is working", () => {
-        navigateToAdminPanel()
-        admin.getSearchPanel().should("be.visible")
-        admin.getSearchPanel().find(".oxd-input.oxd-input--active").type("Admin")
-        cy.get(".oxd-icon.bi-caret-down-fill.oxd-select-text--arrow").first().click({ force: true })
-        cy.get(".oxd-select-dropdown.--posiotion-bottom").contains("Admin").click({ force: true })
+        cy.get("@xyz").then((xyz) => {
+            navigateToAdminPanel()
+            admin.getSearchPanel().should("be.visible")
+            admin.getSearchPanel().find(".oxd-input.oxd-input--active").type(xyz.serachUserName)
+            cy.get(".oxd-icon.bi-caret-down-fill.oxd-select-text--arrow").first().click({ force: true })
+            cy.get(".oxd-select-dropdown.--posiotion-bottom").contains("Admin").click({ force: true })
+        })
     })
 
-    it.skip("Working with check boxes", () => {
+    it("Working with check boxes", () => {
         navigateToAdminPanel()
         cy.get(".oxd-table-row.oxd-table-row--with-border").contains("Adalwin").parents(".oxd-table-row.oxd-table-row--with-border").find('.oxd-table-card-cell-checkbox [type="checkbox"]').check({ force: true })
         // cy.get(".oxd-table-row.oxd-table-row--with-border").contains("Cassidy.Hope").parents(".oxd-table-row.oxd-table-row--with-border").find('.oxd-table-card-cell-checkbox [type="checkbox"]').uncheck({ force: true })
@@ -55,25 +53,27 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
     })
 
     it.only("Verify Edit Functionality", () => {
+        cy.intercept("GET", "/web/index.php/api/**/pim/employees?**").as("empName")
+        cy.intercept("GET", "/web/index.php/api/**/admin/validation/user-name?**").as("userName")
         navigateToAdminPanel()
         cy.get(".oxd-table-row.oxd-table-row--with-border").contains("Kevin.Mathews").parents(".oxd-table-row.oxd-table-row--with-border").find(".oxd-table-cell-actions .oxd-icon.bi-pencil-fill").click({ force: true })
         cy.get(".orangehrm-card-container h6").should("have.text", "Edit User")
         cy.get(".oxd-icon.bi-caret-down-fill.oxd-select-text--arrow").first().click({ force: true }).then(() => {
-            cy.get('[role="listbox"]').select("Admin").click({ force: true })
+            cy.get('.oxd-select-dropdown.--positon-bottom').contains("Admin").click({ force: true })
         })
-        cy.get('.oxd-autocomplete-text-input > input').clearThenType("Kevi").then(() => {
-            cy.get('[role="listbox"]').contains("Kevin.Mathews").click({ force: true })
-        })
-
-
-
+        cy.get('.oxd-autocomplete-text-input > input', { timeout: 12000 }).click({ force: true }, { timeout: 9000 })
+        cy.get('.oxd-autocomplete-text-input > input').clear({ force: true }, { timeout: 12000 })
+        cy.get('.oxd-autocomplete-text-input > input').type("Kevi", { force: true }, { timeout: 12000 })
+        cy.wait("@userName")
+        cy.wait("@empName")
+        cy.get(".oxd-autocomplete-dropdown.--positon-bottom").contains("Kevin Mathews").click({ force: true })
+        cy.get(`.oxd-input`).last().click({ force: true }).clearThenType("Narayan", { force: true })
+        cy.get('.oxd-checkbox-wrapper [type="checkbox"]').check({ force: true })
     })
-
-
-
-
 })
 function navigateToAdminPanel() {
     loginpage.getSideMenu().contains("Admin").click({ force: true })
     loginpage.getSideMenu().contains("Admin").should("have.class", "oxd-main-menu-item active")
 }
+
+

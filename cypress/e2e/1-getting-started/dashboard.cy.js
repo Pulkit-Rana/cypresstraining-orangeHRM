@@ -22,7 +22,7 @@ describe("Tho test Login functionality and navigate to dashboard", () => {
             expect($ele.text())
                 .include("Time at Work")
                 .and.include("My Action")
-                .and.include("Quick Launch")
+                .and.include("Quick Launch") 
                 .and.include("Buzz Latest Posts")
                 .and.include("Employees on Leave Today")
                 .and.include("Employee Distribution by Sub Unit")
