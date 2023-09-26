@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "qcypress run"
+    "start": "cypress run"
   },
   "devDependencies": {
     "cypress": "^13.1.0",
