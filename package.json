@@ -1,10 +1,4 @@
 {
-  "scripts": {
-    "postinstall": "",
-    "start": "qcypress run",
-    "cy:open": "cypress open",
-    "test": "npx cypress open"
-  },
   "devDependencies": {
     "cypress": "^13.1.0",
     "cypress-mochawesome-reporter": "^3.6.0",
