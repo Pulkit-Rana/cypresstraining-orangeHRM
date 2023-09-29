@@ -13,8 +13,11 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
     },
-    viewportWidth:1920,
-    viewportHeight:1080,
+    viewportWidth: 1920,
+    viewportHeight: 1080,
     baseUrl: "https://opensource-demo.orangehrmlive.com/",
+  },
+  "env": {
+    "info": "Please make sure you encrypt before you write any values here.",
   },
 });

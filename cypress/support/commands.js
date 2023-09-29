@@ -27,6 +27,7 @@
 import { LoginPage } from "./pageobjects/loginpage"
 
 const loginpage = new LoginPage()
+const CryptoJS = require('crypto-js');
 
 Cypress.Commands.add("login", (userName, password) => {
     cy.visit("/")
@@ -46,3 +47,13 @@ Cypress.Commands.add("logout", () => {
 Cypress.Commands.add("clearThenType", { prevSubject: true }, (locator, text) => {
     cy.wrap(locator).clear({ force: true }).type(text, { force: true })
 })
+
+Cypress.Commands.add('encrypt', (message) => {
+    const encrypted = CryptoJS.AES.encrypt(message, Cypress.env('KEY'));
+    return encrypted.toString();
+});
+
+Cypress.Commands.add('decrypt', (cipherText) => {
+    const bytes = CryptoJS.AES.decrypt(cipherText, Cypress.env('KEY'));
+    return bytes.toString(CryptoJS.enc.Utf8);
+});
