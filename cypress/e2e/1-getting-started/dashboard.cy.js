@@ -15,7 +15,8 @@ describe("Tho test Login functionality and navigate to dashboard", () => {
 
   it("Validating the tiles on the dashboard tab", () => {
     dashboard.getDashboardTiles().should("have.length", 7)
-    dashboard.getDashboardPage()
+    dashboard
+      .getDashboardPage()
       .should("be.visible")
       .then($ele => {
         expect($ele.text())

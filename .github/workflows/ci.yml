@@ -1,8 +1,23 @@
 name: Cypress Tests
 
-on: push
-
+on: 
+  push:
+      branches:
+      - main
+      
 jobs:
+  lint:
+    name: Run Linter
+    runs-on: ubuntu-latest
+    steps:
+    - id: checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache-dependency-path: "**/package-lock.json"
   cypress-run:
     runs-on: ubuntu-22.04
     steps:

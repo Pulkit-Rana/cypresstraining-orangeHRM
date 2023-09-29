@@ -1,5 +1,4 @@
 export class Admin {
-
   getTobBar() {
     return cy.get(".oxd-topbar-body-nav")
   }

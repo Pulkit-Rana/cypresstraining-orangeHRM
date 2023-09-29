@@ -10,7 +10,7 @@ module.exports = defineConfig({
     saveAllAttempts: false,
   },
   e2e: {
-    setupNodeEvents(on, config) {
+    setupNodeEvents(on) {
       require("cypress-mochawesome-reporter/plugin")(on)
     },
     viewportWidth: 1920,
@@ -20,6 +20,7 @@ module.exports = defineConfig({
   env: {
     info: "Please make sure you encrypt before you write any values here.",
     userName: "Admin",
-    password: "d17527c1fafc8fd5f0b94b02331b95df08d0d18e401753e03390482a4261b5ea10490d165f0c72e4e12b98cf214845136yWXAXghqcHVIZmsIyELUQ=="
+    password:
+      "d17527c1fafc8fd5f0b94b02331b95df08d0d18e401753e03390482a4261b5ea10490d165f0c72e4e12b98cf214845136yWXAXghqcHVIZmsIyELUQ==",
   },
 })

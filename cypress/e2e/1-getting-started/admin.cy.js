@@ -19,7 +19,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       admin.getTobBar().find("ul").should("be.visible")
       admin.getSearchPanel().should("be.visible")
       admin.getListingPanel().should("be.visible")
-      admin.getUsernameColumn()
+      admin
+        .getUsernameColumn()
         .contains(adminpage.searchName)
         .parentsUntil(".oxd-table-card")
         .find("div:nth-child(4) > div")
@@ -42,7 +43,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
 
   it("Verify the headers", () => {
     navigateToAdminPanel()
-    admin.getListingRow()
+    admin
+      .getListingRow()
       .find("div")
       .then($data => {
         expect($data.text())
@@ -62,7 +64,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       admin.getSearchPanel().should("be.visible")
       admin.getSearchPanel().find(".oxd-input.oxd-input--active").type(adminpage.searchName)
       cy.wait("@page")
-      admin.getStatusAndRoleDropdowns()
+      admin
+        .getStatusAndRoleDropdowns()
         .first()
         .click({ force: true })
         .then(() => {
@@ -73,7 +76,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       admin.getEmployeeNameDropdown().should("be.visible")
       admin.getEmployeeNameList().first().click({ force: true })
       cy.wait("@results")
-      admin.getStatusAndRoleDropdowns()
+      admin
+        .getStatusAndRoleDropdowns()
         .last()
         .click({ force: true })
         .then(() => {
@@ -95,7 +99,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       cy.get(".orangehrm-header-container > .oxd-button").click({ force: true })
       cy.wait("@add")
       cy.reload()
-      admin.getStatusAndRoleDropdowns()
+      admin
+        .getStatusAndRoleDropdowns()
         .first()
         .click({ force: true })
         .then(() => {
@@ -108,7 +113,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       admin.getEmployeeNameDropdown().should("be.visible")
       admin.getEmployeeNameList().first().click({ force: true })
       cy.wait("@results")
-      admin.getStatusAndRoleDropdowns()
+      admin
+        .getStatusAndRoleDropdowns()
         .last()
         .click({ force: true })
         .then(() => {
@@ -129,7 +135,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
     cy.get("@adminpage").then(adminpage => {
       let updatedPassword = encryptor.decrypt(adminpage.addPassword)
       navigateToAdminPanel()
-      admin.getListingRow()
+      admin
+        .getListingRow()
         .contains(adminpage.addUserName)
         .parentsUntil(".oxd-table-card")
         .find(".oxd-table-cell-actions .oxd-icon.bi-pencil-fill")
@@ -137,41 +144,37 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       cy.wait("@add")
       admin.getEditUserHeading().should("have.text", "Edit User")
       admin.getEmployeeName().type("{del}{selectall}{backspace}")
-      admin.getStatusAndRoleDropdowns()
+      admin
+        .getStatusAndRoleDropdowns()
         .first()
         .click({ force: true })
         .then(() => {
           admin.getDropdownBox().should("be.visible")
           admin.getDropdownList().contains(adminpage.searchName).click({ force: true })
         })
-      admin.getEmployeeName().type(
-        adminpage.empName,
-        { delay: 300 },
-        { timeout: 6000 }
-      )
+      admin.getEmployeeName().type(adminpage.empName, { delay: 300 }, { timeout: 6000 })
       admin.getEmployeeNameDropdown().should("be.visible")
       admin.getEmployeeNameList().first().click({ force: true })
       cy.wait("@results")
-      admin.getStatusAndRoleDropdowns()
+      admin
+        .getStatusAndRoleDropdowns()
         .last()
         .click({ force: true })
         .then(() => {
           admin.getDropdownBox().should("be.visible")
           admin.getDropdownList().contains("Enabled").click({ force: true })
         })
-      admin.getAddUserInputFields()
-        .first()
-        .clearThenType(adminpage.updateUserName, { force: true })
-      admin.getChangePassowrdCheckBox()
+      admin.getAddUserInputFields().first().clearThenType(adminpage.updateUserName, { force: true })
+      admin
+        .getChangePassowrdCheckBox()
         .check({ force: true })
         .then(() => {
-          admin.getAddUserInputFields()
+          admin
+            .getAddUserInputFields()
             .eq(1)
             .should("be.visible")
             .type(updatedPassword, { force: true }, { log: false })
-          admin.getAddUserInputFields()
-            .eq(2)
-            .type(updatedPassword, { force: true }, { log: false })
+          admin.getAddUserInputFields().eq(2).type(updatedPassword, { force: true }, { log: false })
           admin.getAddUserButton().click({ force: true })
           admin.getSuccessToast().should("be.visible")
         })
@@ -185,7 +188,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
     cy.get("@adminpage").then(adminpage => {
       navigateToAdminPanel()
       // Deleting by Delete Icon.
-      admin.getListingRow()
+      admin
+        .getListingRow()
         .contains(adminpage.updateUserName)
         .parentsUntil(".oxd-table-card")
         .find(".oxd-icon.bi-trash")
@@ -194,13 +198,21 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       admin.getConfirmDeleteButton().click({ force: true })
       admin.getSuccessToast().should("be.visible")
       // // Deleting by checkbox
-      // admin.getListingRow().contains(adminpage.updateUserName).parentsUntil(".oxd-table-card").find('.oxd-table-card-cell-checkbox [type="checkbox"]').check({ force: true })
-      // cy.wait("@add")
-      // admin.getConfirmDeleteButton().should("have.text", " Delete Selected ").click({ force: true })
-      // cy.get('.oxd-sheet').should("be.visible")
-      // cy.get('.orangehrm-text-center-align > .oxd-text').should("have.text", "The selected record will be permanently deleted. Are you sure you want to continue?")
-      // cy.get('.oxd-button--label-danger').click({ force: true })
-      // admin.getSuccessToast().should("be.visible")
+      admin
+        .getListingRow()
+        .contains(adminpage.updateUserName)
+        .parentsUntil(".oxd-table-card")
+        .find('.oxd-table-card-cell-checkbox [type="checkbox"]')
+        .check({ force: true })
+      cy.wait("@add")
+      admin.getConfirmDeleteButton().should("have.text", " Delete Selected ").click({ force: true })
+      cy.get(".oxd-sheet").should("be.visible")
+      cy.get(".orangehrm-text-center-align > .oxd-text").should(
+        "have.text",
+        "The selected record will be permanently deleted. Are you sure you want to continue?"
+      )
+      cy.get(".oxd-button--label-danger").click({ force: true })
+      admin.getSuccessToast().should("be.visible")
     })
   })
 })

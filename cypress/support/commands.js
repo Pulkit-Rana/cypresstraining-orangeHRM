@@ -30,11 +30,10 @@ const loginpage = new LoginPage()
 const encryptor = require("simple-encryptor")(Cypress.env("info"))
 
 Cypress.Commands.add("login", () => {
-
   cy.visit("/")
   loginpage.getLoginContainerUI().should("be.visible")
-  loginpage.getUserName().type(Cypress.env('userName'), { force: true })
-  loginpage.getuserPassword().type(encryptor.decrypt(Cypress.env('password')), { log: false })
+  loginpage.getUserName().type(Cypress.env("userName"), { force: true })
+  loginpage.getuserPassword().type(encryptor.decrypt(Cypress.env("password")), { log: false })
   loginpage.getLoginSubmiButton().click({ force: true })
   loginpage.getSideMenu().contains("Dashboard").should("have.class", "oxd-main-menu-item active")
 })
@@ -46,5 +45,6 @@ Cypress.Commands.add("logout", () => {
 })
 
 Cypress.Commands.add("clearThenType", { prevSubject: true }, (locator, text) => {
-  cy.wrap(locator).clear({ force: true }).type(text, { force: true })
+  cy.wrap(locator).clear({ force: true })
+  cy.wrap(locator).type(text, { force: true })
 })
