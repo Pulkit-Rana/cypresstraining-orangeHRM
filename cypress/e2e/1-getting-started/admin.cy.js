@@ -10,6 +10,7 @@ const encryptor = require("simple-encryptor")(Cypress.env("info"))
 describe("Tho test Login functionality and navigate to Admin Tab", () => {
   beforeEach(() => {
     cy.fixture("/adminpage.json").as("adminpage")
+    cy.login()
   })
 
   it("Verify that the user is able to navigate to the Admin Tab & verify the page details & invoke the employee name for Admin", () => {
