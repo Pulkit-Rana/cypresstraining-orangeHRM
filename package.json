@@ -1,6 +1,9 @@
 {
   "scripts": {
-    "start": "cypress run"
+    "start": "cypress run",
+    "lint": "eslint .",
+    "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
+    "precommit": "npm run pretty && npm run lint"
   },
   "devDependencies": {
     "cypress": "^13.1.0",
@@ -14,7 +17,8 @@
     "mochawesome-report-generator": "^6.2.0"
   },
   "dependencies": {
-    "crypto-js": "^4.1.1",
+    "eslint-plugin-cypress": "^2.15.1",
+    "prettier": "^3.0.3",
     "simple-encryptor": "^4.0.0"
   }
 }

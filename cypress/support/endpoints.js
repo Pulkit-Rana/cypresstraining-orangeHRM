@@ -1,3 +1,3 @@
 export const Endpoints = {
-    adminTab: () => "/web/index.php/admin/viewSystemUsers"
-} 
+  adminTab: () => "/web/index.php/admin/viewSystemUsers",
+}

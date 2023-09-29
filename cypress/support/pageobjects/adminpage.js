@@ -1,6 +1,5 @@
 export class Admin {
-
-    getSearchPanel() {
-        return cy.get(".oxd-form-row")
-    }
+  getSearchPanel() {
+    return cy.get(".oxd-form-row")
+  }
 }
