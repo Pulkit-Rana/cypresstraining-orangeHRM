@@ -7,7 +7,7 @@ var key = "Please make sure you encrypt before you write any values here.";
 // Create an encryptor:
 var encryptor = require('simple-encryptor')(key);
 
-var encrypted = encryptor.encrypt('Orange@123');
+var encrypted = encryptor.encrypt('UpdateOrange@123');
 // Should print gibberish:
 console.log('encrypted: %s', encrypted);
 
