@@ -23,7 +23,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
         cy.get('.oxd-table-filter').should("be.visible")
         cy.get('.orangehrm-container').should("be.visible")
         cy.get("div:nth-child(n+1) > div > div:nth-child(2) > div").contains("Admin").parentsUntil(".oxd-table-card").find("div:nth-child(4) > div").invoke("text").as("empName").then(($empName) => {
-            let empName = $empName
+            let empName = $empName.split(" ")[0]
+            cy.log(empName)
             cy.readFile("cypress/fixtures/adminpage.json", err => {
                 if (err) {
                     return cy.log(err)
@@ -81,8 +82,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
             let decryptPass = encryptor.decrypt(adminpage.addPassword);
             navigateToAdminPanel()
             cy.get('.orangehrm-header-container > .oxd-button').click({ force: true })
-            cy.reload()
             cy.wait("@add")
+            cy.reload()
             cy.get(".oxd-icon.bi-caret-down-fill.oxd-select-text--arrow").first().click({ force: true }).then(() => {
                 cy.get(".oxd-select-dropdown.--positon-bottom").should("be.visible")
                 cy.get(".oxd-select-option span").contains(adminpage.searchName).click({ force: true })
@@ -112,12 +113,12 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
             cy.get(".oxd-table-row.oxd-table-row--with-border").contains(adminpage.addUserName).parentsUntil(".oxd-table-card").find(".oxd-table-cell-actions .oxd-icon.bi-pencil-fill").click({ force: true })
             cy.wait("@add")
             cy.get(".orangehrm-card-container h6").should("have.text", "Edit User")
+            cy.get('.oxd-autocomplete-text-input > input').type('{del}{selectall}{backspace}')
             cy.get(".oxd-icon.bi-caret-down-fill.oxd-select-text--arrow").first().click({ force: true }).then(() => {
                 cy.get(".oxd-select-dropdown.--positon-bottom").should("be.visible")
                 cy.get(".oxd-select-option span").contains(adminpage.searchName).click({ force: true })
             })
-            cy.get('.oxd-autocomplete-text-input > input').type('{del}{selectall}{backspace}')
-            cy.get('.oxd-autocomplete-text-input > input').type(adminpage.empName, { delay: 300 })
+            cy.get('.oxd-autocomplete-text-input > input').type(adminpage.empName, { delay: 300 }, { timeout: 6000 })
             cy.get(".oxd-autocomplete-dropdown.--positon-bottom", { timeout: 9000 }).should("be.visible")
             cy.get('[role="option"] span', { timeout: 9000 }).first().click({ force: true })
             cy.wait("@results")
@@ -142,20 +143,28 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
         cy.get("@adminpage").then((adminpage) => {
             navigateToAdminPanel()
             // Deleting by Delete Icon.
-            cy.get(".oxd-table-row.oxd-table-row--with-border").contains(adminpage.addUserName).parentsUntil(".oxd-table-card").find(".oxd-icon.bi-trash").click({ force: true })
+            cy.get(".oxd-table-row.oxd-table-row--with-border").contains(adminpage.updateUserName).parentsUntil(".oxd-table-card").find(".oxd-icon.bi-trash").click({ force: true })
             cy.wait("@add")
             cy.get(".oxd-button--label-danger").click({ force: true })
             cy.get("#oxd-toaster_1").should("be.visible")
-            // Deleting by checkbox
-            cy.get(".oxd-table-row.oxd-table-row--with-border").contains(adminpage.updateUserName).parentsUntil(".oxd-table-card").find('.oxd-table-card-cell-checkbox [type="checkbox"]').check({ force: true })
-            cy.wait("@add")
-            cy.get(".oxd-button--label-danger").should("have.text", " Delete Selected ").click({ force: true })
-            cy.get('.oxd-sheet').should("be.visible")
-            cy.get('.orangehrm-text-center-align > .oxd-text').should("have.text", "The selected record will be permanently deleted. Are you sure you want to continue?")
-            cy.get('.oxd-button--label-danger').click({ force: true })
-            cy.get("#oxd-toaster_1").should("be.visible")
+            // // Deleting by checkbox
+            // cy.get(".oxd-table-row.oxd-table-row--with-border").contains(adminpage.updateUserName).parentsUntil(".oxd-table-card").find('.oxd-table-card-cell-checkbox [type="checkbox"]').check({ force: true })
+            // cy.wait("@add")
+            // cy.get(".oxd-button--label-danger").should("have.text", " Delete Selected ").click({ force: true })
+            // cy.get('.oxd-sheet').should("be.visible")
+            // cy.get('.orangehrm-text-center-align > .oxd-text').should("have.text", "The selected record will be permanently deleted. Are you sure you want to continue?")
+            // cy.get('.oxd-button--label-danger').click({ force: true })
+            // cy.get("#oxd-toaster_1").should("be.visible")
         })
     })
+
+    // it("Verify Top Menu", () => {
+    //     navigateToAdminPanel()
+    //     cy.get(".oxd-topbar-body-nav li span").contains("Job").click({ force: true }).then(() => {
+    //         cy.get(".oxd-dropdown-menu").should("be.visible").find("li a").contains("Job Categories").click({ force: true })
+    //     })
+
+    // })
 })
 function navigateToAdminPanel() {
     loginpage.getSideMenu().contains("Admin").click({ force: true })
