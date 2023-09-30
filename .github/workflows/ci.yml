@@ -17,14 +17,14 @@ jobs:
       - name: Save build folder screenshots
         uses: actions/upload-artifact@v3
         with:
-          name: cypress-screenshots
-          path: cypress/screenshots
+          name: screenshots
+          path: orangeHRM/screenshots
           if-no-files-found: ignore
       - name: Save build folder videos
         uses: actions/upload-artifact@v3
         with:
-          name: cypress-videos
-          path: cypress/videos
+          name: videos
+          path: orangeHRM/videos
           if-no-files-found: error
 
   cypress-run:
@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Prettier
-        run: npm run format
+        run: npm run pretty
       - name: Lint
         run: npm run lint
       # Install NPM dependencies, cache them correctly

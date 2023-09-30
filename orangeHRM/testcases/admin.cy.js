@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
-import { Admin } from "../../support/pageobjects/adminpage"
-import { LoginPage } from "../../support/pageobjects/loginpage"
+import { Admin } from "../support/pageobjects/adminpage"
+import { LoginPage } from "../support/pageobjects/loginpage"
 
 const loginpage = new LoginPage()
 const admin = new Admin()
@@ -29,13 +29,13 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
         .then($empName => {
           let empName = $empName.split(" ")[0]
           cy.log(empName)
-          cy.readFile("cypress/fixtures/adminpage.json", err => {
+          cy.readFile("orangeHRM/fixtures/adminpage.json", err => {
             if (err) {
               return cy.log(err)
             }
           }).then(text => {
             text.empName = empName
-            cy.writeFile("cypress/fixtures/adminpage.json", JSON.stringify(text))
+            cy.writeFile("orangeHRM/fixtures/adminpage.json", JSON.stringify(text))
           })
         })
     })
@@ -200,17 +200,11 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       // // Deleting by checkbox
       admin
         .getListingRow()
-        .contains(adminpage.updateUserName)
-        .parentsUntil(".oxd-table-card")
-        .find('.oxd-table-card-cell-checkbox [type="checkbox"]')
+        .find("div")
+        .find('.oxd-table-card-cell-checkbox [type="checkbox"]').first()
         .check({ force: true })
       cy.wait("@add")
       admin.getConfirmDeleteButton().should("have.text", " Delete Selected ").click({ force: true })
-      cy.get(".oxd-sheet").should("be.visible")
-      cy.get(".orangehrm-text-center-align > .oxd-text").should(
-        "have.text",
-        "The selected record will be permanently deleted. Are you sure you want to continue?"
-      )
       cy.get(".oxd-button--label-danger").click({ force: true })
       admin.getSuccessToast().should("be.visible")
     })

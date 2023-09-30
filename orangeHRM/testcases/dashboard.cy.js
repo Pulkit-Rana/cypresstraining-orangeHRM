@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { Dashboard } from "../../support/pageobjects/dashboardpage"
+import { Dashboard } from "../support/pageobjects/dashboardpage"
 
 const dashboard = new Dashboard()
 
