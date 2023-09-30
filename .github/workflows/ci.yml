@@ -34,9 +34,12 @@ jobs:
         uses: actions/checkout@v4
       - name: Prettier
         run: npm ci
-      - run: npm run pretty
-      - name: Lint
-        run: npm run lint
+      - run: npm run precommit
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply formatting changes
+          branch: main
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
