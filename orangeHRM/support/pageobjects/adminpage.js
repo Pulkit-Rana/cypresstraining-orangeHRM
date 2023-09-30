@@ -7,6 +7,14 @@ export class Admin {
     return cy.get(".oxd-form-row")
   }
 
+  getSearchButton() {
+    return cy.get(".oxd-form-actions button")
+  }
+
+  getAddButton() {
+    return cy.get(".orangehrm-header-container > .oxd-button")
+  }
+
   getListingPanel() {
     return cy.get(".orangehrm-container")
   }
@@ -17,6 +25,10 @@ export class Admin {
 
   getListingRow() {
     return cy.get(".oxd-table-row.oxd-table-row--with-border")
+  }
+
+  getRowData() {
+    return cy.get(".oxd-table-card")
   }
 
   getStatusAndRoleDropdowns() {
@@ -32,7 +44,7 @@ export class Admin {
   }
 
   getEmployeeName() {
-    return cy.get(".oxd-autocomplete-text-input > input")
+    return cy.get(".oxd-autocomplete-text-input > input", { timeout: 9000 })
   }
 
   getEmployeeNameDropdown() {

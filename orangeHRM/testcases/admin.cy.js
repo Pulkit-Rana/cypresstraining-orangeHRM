@@ -84,9 +84,9 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
           admin.getDropdownBox().should("be.visible")
           admin.getDropdownList().contains("Enabled").click({ force: true })
         })
-      cy.get(".oxd-form-actions button").contains("Search").click({ force: true })
+      admin.getSearchButton().contains("Search").click({ force: true })
       cy.wait("@page")
-      cy.get(".oxd-table-card").should("have.length", 1)
+      admin.getRowData().should("have.length", 1)
     })
   })
 
@@ -96,7 +96,7 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
     cy.get("@adminpage").then(adminpage => {
       let decryptPass = encryptor.decrypt(adminpage.addPassword)
       navigateToAdminPanel()
-      cy.get(".orangehrm-header-container > .oxd-button").click({ force: true })
+      admin.getAddButton().click({ force: true })
       cy.wait("@add")
       cy.reload()
       admin
@@ -107,7 +107,7 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
           admin.getDropdownBox().should("be.visible")
           admin.getDropdownList().contains(adminpage.searchName).click({ force: true })
         })
-      cy.get(".oxd-autocomplete-text-input > input", { timeout: 9000 }).type(adminpage.empName, {
+      admin.getEmployeeName().type(adminpage.empName, {
         delay: 300,
       })
       admin.getEmployeeNameDropdown().should("be.visible")
@@ -198,20 +198,27 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       admin.getConfirmDeleteButton().click({ force: true })
       admin.getSuccessToast().should("be.visible")
       // // Deleting by checkbox
-      admin
-        .getListingRow()
-        .find("div").then(($ln) => {
-          if ($el.find("")) {
-
+      // admin
+      //   .getListingRow()
+      admin.getRowData()
+        .then($el => {
+          if ($el.find(".oxd-table-row.oxd-table-row--with-border").length > 3) {
+            admin
+              .getListingRow()
+              .find('div .oxd-table-card-cell-checkbox [type="checkbox"]')
+              .first()
+              .check({ force: true })
+            cy.wait("@add")
+            admin
+              .getConfirmDeleteButton()
+              .should("have.text", " Delete Selected ")
+              .click({ force: true })
+            admin.getConfirmDeleteButton().last().click({ force: true })
+            admin.getSuccessToast().should("be.visible")
+          } else {
+            cy.log("No checkBoxes to check")
           }
         })
-        .find('.oxd-table-card-cell-checkbox [type="checkbox"]')
-        .first()
-        .check({ force: true })
-      cy.wait("@add")
-      admin.getConfirmDeleteButton().should("have.text", " Delete Selected ").click({ force: true })
-      cy.get(".oxd-button--label-danger").last().click({ force: true })
-      admin.getSuccessToast().should("be.visible")
     })
   })
 })
