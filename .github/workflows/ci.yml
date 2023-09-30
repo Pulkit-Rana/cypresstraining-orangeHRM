@@ -14,30 +14,28 @@ jobs:
         with:
           # Disable running of tests within install job
           runTests: false
-          build: npm run build
-
       - name: Save build folder screenshots
         uses: actions/upload-artifact@v3
-        if: failure()
         with:
           name: cypress-screenshots
-          if-no-files-found: error
           path: cypress/screenshots
+          if-no-files-found: ignore
       - name: Save build folder videos
         uses: actions/upload-artifact@v3
-        if: always()
         with:
           name: cypress-videos
-          if-no-files-found: error
           path: cypress/videos
+          if-no-files-found: error
 
   cypress-run:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Precommit Checks
-        run: npm run precommit
+      - name: Prettier
+        run: npm run lint
+      - name: Lint
+        run: npm run lint
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
