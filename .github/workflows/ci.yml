@@ -35,10 +35,6 @@ jobs:
       - name: Prettier
         run: npm ci
       - run: npm run precommit
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Apply formatting changes
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
