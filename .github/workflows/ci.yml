@@ -39,7 +39,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply formatting changes
-          branch: main
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
