@@ -200,12 +200,17 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
       // // Deleting by checkbox
       admin
         .getListingRow()
-        .find("div")
-        .find('.oxd-table-card-cell-checkbox [type="checkbox"]').first()
+        .find("div").then(($ln) => {
+          if ($el.find("")) {
+
+          }
+        })
+        .find('.oxd-table-card-cell-checkbox [type="checkbox"]')
+        .first()
         .check({ force: true })
       cy.wait("@add")
       admin.getConfirmDeleteButton().should("have.text", " Delete Selected ").click({ force: true })
-      cy.get(".oxd-button--label-danger").click({ force: true })
+      cy.get(".oxd-button--label-danger").last().click({ force: true })
       admin.getSuccessToast().should("be.visible")
     })
   })

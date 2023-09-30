@@ -25,7 +25,7 @@ jobs:
         with:
           name: videos
           path: orangeHRM/videos
-          if-no-files-found: error
+          if-no-files-found: ignore
 
   cypress-run:
     runs-on: ubuntu-22.04

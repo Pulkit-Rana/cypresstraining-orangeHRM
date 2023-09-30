@@ -1,4 +1,5 @@
 const { defineConfig } = require("cypress")
+const fs = require("fs")
 
 module.exports = defineConfig({
   viewportWidth: 1920,
@@ -27,7 +28,6 @@ module.exports = defineConfig({
   downloadsFolder: "orangeHRM/downloads",
   screenshotsFolder: "orangeHRM/screenshots",
   videosFolder: "orangeHRM/videos",
-  videosFolder: "orangeHRM/videos",
   fixturesFolder: "orangeHRM/fixtures",
   defaultCommandTimeout: 5000,
   video: true,
@@ -47,17 +47,16 @@ module.exports = defineConfig({
   pageLoadTimeout: 120000,
   requestTimeout: 30000,
   responseTimeout: 120000,
-  reporter: "mochawesome",
   e2e: {
     specPattern: "orangeHRM/testcases/*",
     supportFile: "orangeHRM/support/e2e.js",
     setupNodeEvents(on) {
       require("cypress-mochawesome-reporter/plugin")(on)
-      on('after:spec', (results) => {
+      on("after:spec", results => {
         if (results && results.video) {
           // Do we have failures for any retry attempts?
-          const failures = results.tests.some((test) =>
-            test.attempts.some((attempt) => attempt.state === 'failed')
+          const failures = results.tests.some(test =>
+            test.attempts.some(attempt => attempt.state === "failed")
           )
           if (!failures) {
             // delete the video if the spec passed and no tests retried
