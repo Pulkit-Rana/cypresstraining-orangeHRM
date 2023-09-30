@@ -33,7 +33,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Prettier
-        run: npm run pretty
+        run: npm ci
+      - run: npm run pretty
       - name: Lint
         run: npm run lint
       # Install NPM dependencies, cache them correctly
