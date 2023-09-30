@@ -1,6 +1,8 @@
 const { defineConfig } = require("cypress")
 
 module.exports = defineConfig({
+  video: true,
+  videoCompression: 15,
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
     charts: true,
@@ -12,6 +14,18 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on) {
       require("cypress-mochawesome-reporter/plugin")(on)
+      on('after:spec', (spec, results) => {
+        if (results && results.video) {
+          // Do we have failures for any retry attempts?
+          const failures = results.tests.some((test) =>
+            test.attempts.some((attempt) => attempt.state === 'failed')
+          )
+          if (!failures) {
+            // delete the video if the spec passed and no tests retried
+            fs.unlinkSync(results.video)
+          }
+        }
+      })
     },
     viewportWidth: 1920,
     viewportHeight: 1080,
