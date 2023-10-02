@@ -48,6 +48,7 @@ module.exports = defineConfig({
   requestTimeout: 30000,
   responseTimeout: 120000,
   e2e: {
+    baseUrl: "https://opensource-demo.orangehrmlive.com/",
     specPattern: "orangeHRM/testcases/*",
     supportFile: "orangeHRM/support/e2e.js",
     setupNodeEvents(on) {
@@ -65,9 +66,6 @@ module.exports = defineConfig({
         }
       })
     },
-    viewportWidth: 1920,
-    viewportHeight: 1080,
-    baseUrl: "https://opensource-demo.orangehrmlive.com/",
   },
   env: {
     info: "Please make sure you encrypt before you write any values here.",

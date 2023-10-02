@@ -39,12 +39,12 @@ Cypress.Commands.add("login", () => {
 })
 
 Cypress.Commands.add("logout", () => {
-  cy.get(".oxd-userdropdown").click({ force: true })
+  loginpage.getProfileDropdown().click({ force: true })
   cy.get(".oxd-topbar-header-userarea ul li").should("have.class", "--active oxd-userdropdown")
   cy.get('[href="/web/index.php/auth/logout"]').click({ force: true })
 })
 
 Cypress.Commands.add("clearThenType", { prevSubject: true }, (locator, text) => {
-  cy.wrap(locator).clear({ force: true })
-  cy.wrap(locator).type(text, { force: true })
+  cy.get(locator).clear({ force: true })
+  cy.get(locator).type(text, { force: true })
 })

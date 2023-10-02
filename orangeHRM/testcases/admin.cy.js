@@ -28,7 +28,6 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
         .as("empName")
         .then($empName => {
           let empName = $empName.split(" ")[0]
-          cy.log(empName)
           cy.readFile("orangeHRM/fixtures/adminpage.json", err => {
             if (err) {
               return cy.log(err)
