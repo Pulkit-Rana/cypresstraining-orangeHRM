@@ -2,7 +2,7 @@
   "scripts": {
     "start": "cypress run",
     "lint": "eslint .",
-    "pretty": "prettier --write \"./**/*.{js,ts,tsx,json}\"", 
+    "pretty": "prettier --write \"./**/*.{js,ts,tsx,json}\"",
     "precommit": "npm run pretty && npm run lint"
   },
   "devDependencies": {
