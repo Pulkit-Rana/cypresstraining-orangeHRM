@@ -27,13 +27,14 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
         .invoke("text")
         .as("empName")
         .then($empName => {
-          let empName = $empName.split(" ")[0]
+          // $empName = Pulkit Kumar Rana
+          let empName = $empName.split(" ")[0] // empName =Pulkit
           cy.readFile("orangeHRM/fixtures/adminpage.json", err => {
             if (err) {
               return cy.log(err)
             }
           }).then(text => {
-            text.empName = empName
+            text.empName = empName //fixture file's empName = Pulkit
             cy.writeFile("orangeHRM/fixtures/adminpage.json", JSON.stringify(text))
           })
         })
@@ -106,7 +107,7 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
           admin.getDropdownBox().should("be.visible")
           admin.getDropdownList().contains(adminpage.searchName).click({ force: true })
         })
-      admin.getEmployeeName().type(adminpage.empName, {
+      admin.getEmployeeName().find("input").type(adminpage.empName, {
         delay: 300,
       })
       admin.getEmployeeNameDropdown().should("be.visible")
@@ -181,9 +182,9 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
   })
 
   it("Verity the delete funcitionality via checkboxes & delete a user by delete icon", () => {
-    cy.intercept("GET", "/web/index.php/api/**/admin/validation/user-name?**").as("userName")
-    cy.intercept("GET", "/web/index.php/api/**/admin/users?**").as("add")
-    cy.intercept("GET", "/web/index.php/api/**/pim/employees?**").as("results")
+    cy.intercept("GET", "/web/index.php/api/**/admin/validation/user-name?**").as("userName");
+    cy.intercept("GET", "/web/index.php/api/**/admin/users?**").as("add");
+    cy.intercept("GET", "/web/index.php/api/**/pim/employees?**").as("results");
     cy.get("@adminpage").then(adminpage => {
       navigateToAdminPanel()
       // Deleting by Delete Icon.
@@ -192,36 +193,35 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
         .contains(adminpage.updateUserName)
         .parentsUntil(".oxd-table-card")
         .find(".oxd-icon.bi-trash")
-        .click({ force: true })
-      cy.wait("@add")
-      admin.getConfirmDeleteButton().click({ force: true })
-      admin.getSuccessToast().should("be.visible")
+        .click({ force: true });
+      cy.wait("@add");
+      admin.getConfirmDeleteButton().click({ force: true });
+      admin.getSuccessToast().should("be.visible");
       // // Deleting by checkbox
       // admin
       //   .getListingRow()
-      admin.getRowData()
-        .then($el => {
-          if ($el.find(".oxd-table-row.oxd-table-row--with-border").length > 3) {
-            admin
-              .getListingRow()
-              .find('div .oxd-table-card-cell-checkbox [type="checkbox"]')
-              .first()
-              .check({ force: true })
-            cy.wait("@add")
-            admin
-              .getConfirmDeleteButton()
-              .should("have.text", " Delete Selected ")
-              .click({ force: true })
-            admin.getConfirmDeleteButton().last().click({ force: true })
-            admin.getSuccessToast().should("be.visible")
-          } else {
-            cy.log("No checkBoxes to check")
-          }
-        })
+      admin.getRowData().then($el => {
+        if ($el.find(".oxd-table-row.oxd-table-row--with-border").length > 3) {
+          admin
+            .getListingRow()
+            .find('div .oxd-table-card-cell-checkbox [type="checkbox"]')
+            .first()
+            .check({ force: true });
+          cy.wait("@add");
+          admin
+            .getConfirmDeleteButton()
+            .should("have.text", " Delete Selected ")
+            .click({ force: true });
+          admin.getConfirmDeleteButton().last().click({ force: true });
+          admin.getSuccessToast().should("be.visible");
+        } else {
+          cy.log("No checkBoxes to check")
+        }
+      })
     })
   })
 })
-function navigateToAdminPanel() {
+const navigateToAdminPanel = () => {
   loginpage.getSideMenu().contains("Admin").click({ force: true })
   loginpage.getSideMenu().contains("Admin").should("have.class", "oxd-main-menu-item active")
 }

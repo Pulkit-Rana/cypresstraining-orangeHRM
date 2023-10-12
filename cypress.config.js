@@ -20,10 +20,6 @@ module.exports = defineConfig({
     viewportWidth: 1600,
     viewportHeight: 900,
   },
-  extraLarge: {
-    viewportWidth: 1920,
-    viewportHeight: 1080,
-  },
   chromeWebSecurity: false,
   downloadsFolder: "orangeHRM/downloads",
   screenshotsFolder: "orangeHRM/screenshots",
@@ -44,7 +40,7 @@ module.exports = defineConfig({
     inlineAssets: true,
     saveAllAttempts: false,
   },
-  pageLoadTimeout: 120000,
+  pageLoadTimeout: 12000,
   requestTimeout: 30000,
   responseTimeout: 120000,
   e2e: {
