@@ -42,3 +42,10 @@ jobs:
         with:
           start: npm start
           browser: chrome
+
+      - name: Send Email
+        env:
+          GMAIL_USERNAME: ${ secrets.GMAIL_USERNAME}
+          GMAIL_PASSWORD: ${ secrets.GMAIL_PASSWORD }
+        run: |
+         echo "See attached Cypress test report."    

@@ -1,9 +1,10 @@
 /// <reference types="cypress" />
 import { Admin } from "../support/pageobjects/adminpage"
-import { LoginPage } from "../support/pageobjects/loginpage"
+import { LoginPage } from "../support/endpoints"
 
-const loginpage = new LoginPage()
 const admin = new Admin()
+
+const y = 5
 
 const encryptor = require("simple-encryptor")(Cypress.env("info"))
 
@@ -15,6 +16,7 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
 
   it("Verify that the user is able to navigate to the Admin Tab & verify the page details & invoke the employee name for Admin", () => {
     cy.get("@adminpage").then(adminpage => {
+      LoginPage
       navigateToAdminPanel()
       admin.getTobBar().find("ul").should("be.visible")
       admin.getSearchPanel().should("be.visible")
@@ -94,6 +96,7 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
     cy.intercept("GET", "/web/index.php/api/**/admin/users?**").as("add")
     cy.intercept("GET", "/web/index.php/api/**/pim/employees?**").as("results")
     cy.get("@adminpage").then(adminpage => {
+      navigateToAdminPanel()
       let decryptPass = encryptor.decrypt(adminpage.addPassword)
       navigateToAdminPanel()
       admin.getAddButton().click({ force: true })
@@ -133,7 +136,7 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
     cy.intercept("GET", "/web/index.php/api/**/admin/users?**").as("add")
     cy.intercept("GET", "/web/index.php/api/**/pim/employees?**").as("results")
     cy.get("@adminpage").then(adminpage => {
-      let updatedPassword = encryptor.decrypt(adminpage.addPassword)
+     const updatedPassword = encryptor.decrypt(adminpage.addPassword)
       navigateToAdminPanel()
       admin
         .getListingRow()

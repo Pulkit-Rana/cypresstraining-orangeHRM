@@ -1,72 +1,58 @@
-const { defineConfig } = require("cypress")
-const fs = require("fs")
+const { defineConfig } = require('cypress');
+const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
+const {
+  addCucumberPreprocessorPlugin,
+  afterRunHandler,
+} = require('@badeball/cypress-cucumber-preprocessor');
+const createEsbuildPlugin = require('@badeball/cypress-cucumber-preprocessor/esbuild');
+const fs = require('fs');
+
+const setupNodeEvents = async (on, config) => {
+  await addCucumberPreprocessorPlugin(on, config, {
+    omitAfterRunHandler: true,
+  });
+
+  on(
+    'file:preprocessor',
+    createBundler({
+      plugins: [createEsbuildPlugin.default(config)],
+    }),
+  );
+
+  on('after:run', async (results) => {
+    if (results) {
+      await afterRunHandler(config);
+      fs.writeFileSync(
+        'cypress/reports/results.json',
+        JSON.stringify(
+          {
+            browserName: results.browserName,
+            browserVersion: results.browserVersion,
+            osName: results.osName,
+            osVersion: results.osVersion,
+            nodeVersion: results.config.resolvedNodeVersion,
+            cypressVersion: results.cypressVersion,
+            startedTestsAt: results.startedTestsAt,
+            endedTestsAt: results.endedTestsAt,
+          },
+          null,
+          '\t',
+        ),
+      );
+    }
+  });
+  return config;
+};
 
 module.exports = defineConfig({
-  viewportWidth: 1920,
-  viewportHeight: 1080,
-  extraSmall: {
-    viewportWidth: 375,
-    viewportHeight: 667,
-  },
-  small: {
-    viewportWidth: 390,
-    viewportHeight: 844,
-  },
-  medium: {
-    viewportWidth: 1280,
-    viewportHeight: 960,
-  },
-  large: {
-    viewportWidth: 1600,
-    viewportHeight: 900,
-  },
-  chromeWebSecurity: false,
-  downloadsFolder: "orangeHRM/downloads",
-  screenshotsFolder: "orangeHRM/screenshots",
-  videosFolder: "orangeHRM/videos",
-  fixturesFolder: "orangeHRM/fixtures",
-  defaultCommandTimeout: 5000,
-  video: true,
-  videoCompression: 15,
-  reporter: "cypress-mochawesome-reporter",
-  reporterOptions: {
-    reportDir: "reports",
-    overwrite: true,
-    html: true,
-    json: true,
-    charts: true,
-    reportPageTitle: "custom-title",
-    embeddedScreenshots: true,
-    inlineAssets: true,
-    saveAllAttempts: false,
-  },
-  pageLoadTimeout: 12000,
-  requestTimeout: 30000,
-  responseTimeout: 120000,
   e2e: {
-    baseUrl: "https://opensource-demo.orangehrmlive.com/",
-    specPattern: "orangeHRM/testcases/*",
-    supportFile: "orangeHRM/support/e2e.js",
-    setupNodeEvents(on) {
-      require("cypress-mochawesome-reporter/plugin")(on)
-      on("after:spec", results => {
-        if (results && results.video) {
-          // Do we have failures for any retry attempts?
-          const failures = results.tests.some(test =>
-            test.attempts.some(attempt => attempt.state === "failed")
-          )
-          if (!failures) {
-            // delete the video if the spec passed and no tests retried
-            fs.unlinkSync(results.video)
-          }
-        }
-      })
-    },
+    baseUrl: 'https://jsonplaceholder.cypress.io',
+    fixturesFolder: false,
+    responseTimeout: 5000,
+    specPattern: '**/*.feature',
+    supportFile: false,
+    video: false,
+    setupNodeEvents,
+    experimentalInteractiveRunEvents: true,
   },
-  env: {
-    info: "Please make sure you encrypt before you write any values here.",
-    userName: "Admin",
-    password:
-      "d17527c1fafc8fd5f0b94b02331b95df08d0d18e401753e03390482a4261b5ea10490d165f0c72e4e12b98cf214845136yWXAXghqcHVIZmsIyELUQ==",
-  },
-})
+});

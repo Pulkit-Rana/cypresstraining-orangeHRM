@@ -1,10 +1,14 @@
 /// <reference types="cypress" />
 
+import { Admin } from "../support/pageobjects/adminpage"
 import { Dashboard } from "../support/pageobjects/dashboardpage"
+import { Navigate } from "../support/pageobjects/navigate"
 
 const dashboard = new Dashboard()
+const admin = new Admin()
+const navigate = new Navigate()
 
-describe("Tho test Login functionality and navigate to dashboard", () => {
+describe.only("To test Login functionality and navigate to dashboard", () => {
   beforeEach(() => {
     cy.login()
   })
@@ -14,6 +18,7 @@ describe("Tho test Login functionality and navigate to dashboard", () => {
   })
 
   it("Validating the tiles on the dashboard tab", () => {
+    navigate.navigateToAdminPanel()
     dashboard.getDashboardTiles().should("have.length", 7)
     dashboard
       .getDashboardPage()
