@@ -1,12 +1,9 @@
 /// <reference types="cypress" />
-
-import { Admin } from "../support/pageobjects/adminpage"
 import { Dashboard } from "../support/pageobjects/dashboardpage"
-import { Navigate } from "../support/pageobjects/navigate"
+import { LoginPage } from "../support/pageobjects/loginpage"
 
 const dashboard = new Dashboard()
-const admin = new Admin()
-const navigate = new Navigate()
+const loginpage = new LoginPage()
 
 describe.only("To test Login functionality and navigate to dashboard", () => {
   beforeEach(() => {
@@ -18,7 +15,7 @@ describe.only("To test Login functionality and navigate to dashboard", () => {
   })
 
   it("Validating the tiles on the dashboard tab", () => {
-    navigate.navigateToAdminPanel()
+    navigateToAdminPanel()
     dashboard.getDashboardTiles().should("have.length", 7)
     dashboard
       .getDashboardPage()
@@ -35,3 +32,7 @@ describe.only("To test Login functionality and navigate to dashboard", () => {
       })
   })
 })
+function navigateToAdminPanel() {
+  loginpage.getSideMenu().contains("Dashboard").click({ force: true })
+  loginpage.getSideMenu().contains("Dashboard").should("have.class", "oxd-main-menu-item active")
+}

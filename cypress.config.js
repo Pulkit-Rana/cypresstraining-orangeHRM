@@ -1,29 +1,29 @@
-const { defineConfig } = require('cypress');
-const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
+const { defineConfig } = require("cypress")
+const createBundler = require("@bahmutov/cypress-esbuild-preprocessor")
 const {
   addCucumberPreprocessorPlugin,
   afterRunHandler,
-} = require('@badeball/cypress-cucumber-preprocessor');
-const createEsbuildPlugin = require('@badeball/cypress-cucumber-preprocessor/esbuild');
-const fs = require('fs');
+} = require("@badeball/cypress-cucumber-preprocessor")
+const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esbuild")
+const fs = require("fs")
 
 const setupNodeEvents = async (on, config) => {
   await addCucumberPreprocessorPlugin(on, config, {
     omitAfterRunHandler: true,
-  });
+  })
 
   on(
-    'file:preprocessor',
+    "file:preprocessor",
     createBundler({
       plugins: [createEsbuildPlugin.default(config)],
-    }),
-  );
+    })
+  )
 
-  on('after:run', async (results) => {
+  on("after:run", async results => {
     if (results) {
-      await afterRunHandler(config);
+      await afterRunHandler(config)
       fs.writeFileSync(
-        'cypress/reports/results.json',
+        "cypress/reports/results.json",
         JSON.stringify(
           {
             browserName: results.browserName,
@@ -36,23 +36,23 @@ const setupNodeEvents = async (on, config) => {
             endedTestsAt: results.endedTestsAt,
           },
           null,
-          '\t',
-        ),
-      );
+          "\t"
+        )
+      )
     }
-  });
-  return config;
-};
+  })
+  return config
+}
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'https://jsonplaceholder.cypress.io',
+    baseUrl: "https://jsonplaceholder.cypress.io",
     fixturesFolder: false,
     responseTimeout: 5000,
-    specPattern: '**/*.feature',
+    specPattern: "**/*.feature",
     supportFile: false,
     video: false,
     setupNodeEvents,
     experimentalInteractiveRunEvents: true,
   },
-});
+})

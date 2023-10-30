@@ -1,10 +1,9 @@
 /// <reference types="cypress" />
 import { Admin } from "../support/pageobjects/adminpage"
-import { LoginPage } from "../support/endpoints"
+import { LoginPage } from "../support/pageobjects/loginpage"
 
 const admin = new Admin()
-
-const y = 5
+const loginpage = new LoginPage()
 
 const encryptor = require("simple-encryptor")(Cypress.env("info"))
 
@@ -16,7 +15,6 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
 
   it("Verify that the user is able to navigate to the Admin Tab & verify the page details & invoke the employee name for Admin", () => {
     cy.get("@adminpage").then(adminpage => {
-      LoginPage
       navigateToAdminPanel()
       admin.getTobBar().find("ul").should("be.visible")
       admin.getSearchPanel().should("be.visible")
@@ -136,7 +134,7 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
     cy.intercept("GET", "/web/index.php/api/**/admin/users?**").as("add")
     cy.intercept("GET", "/web/index.php/api/**/pim/employees?**").as("results")
     cy.get("@adminpage").then(adminpage => {
-     const updatedPassword = encryptor.decrypt(adminpage.addPassword)
+      const updatedPassword = encryptor.decrypt(adminpage.addPassword)
       navigateToAdminPanel()
       admin
         .getListingRow()
@@ -185,9 +183,9 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
   })
 
   it("Verity the delete funcitionality via checkboxes & delete a user by delete icon", () => {
-    cy.intercept("GET", "/web/index.php/api/**/admin/validation/user-name?**").as("userName");
-    cy.intercept("GET", "/web/index.php/api/**/admin/users?**").as("add");
-    cy.intercept("GET", "/web/index.php/api/**/pim/employees?**").as("results");
+    cy.intercept("GET", "/web/index.php/api/**/admin/validation/user-name?**").as("userName")
+    cy.intercept("GET", "/web/index.php/api/**/admin/users?**").as("add")
+    cy.intercept("GET", "/web/index.php/api/**/pim/employees?**").as("results")
     cy.get("@adminpage").then(adminpage => {
       navigateToAdminPanel()
       // Deleting by Delete Icon.
@@ -196,10 +194,10 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
         .contains(adminpage.updateUserName)
         .parentsUntil(".oxd-table-card")
         .find(".oxd-icon.bi-trash")
-        .click({ force: true });
-      cy.wait("@add");
-      admin.getConfirmDeleteButton().click({ force: true });
-      admin.getSuccessToast().should("be.visible");
+        .click({ force: true })
+      cy.wait("@add")
+      admin.getConfirmDeleteButton().click({ force: true })
+      admin.getSuccessToast().should("be.visible")
       // // Deleting by checkbox
       // admin
       //   .getListingRow()
@@ -209,14 +207,14 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
             .getListingRow()
             .find('div .oxd-table-card-cell-checkbox [type="checkbox"]')
             .first()
-            .check({ force: true });
-          cy.wait("@add");
+            .check({ force: true })
+          cy.wait("@add")
           admin
             .getConfirmDeleteButton()
             .should("have.text", " Delete Selected ")
-            .click({ force: true });
-          admin.getConfirmDeleteButton().last().click({ force: true });
-          admin.getSuccessToast().should("be.visible");
+            .click({ force: true })
+          admin.getConfirmDeleteButton().last().click({ force: true })
+          admin.getSuccessToast().should("be.visible")
         } else {
           cy.log("No checkBoxes to check")
         }
@@ -224,7 +222,8 @@ describe("Tho test Login functionality and navigate to Admin Tab", () => {
     })
   })
 })
-const navigateToAdminPanel = () => {
+
+function navigateToAdminPanel() {
   loginpage.getSideMenu().contains("Admin").click({ force: true })
   loginpage.getSideMenu().contains("Admin").should("have.class", "oxd-main-menu-item active")
 }
