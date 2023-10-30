@@ -29,7 +29,7 @@ describe.only("To test Login functionality and navigate to dashboard", () => {
           .and.include("Employees on Leave Today")
           .and.include("Employee Distribution by Sub Unit")
           .and.include("Employee Distribution by Location")
-      })
+      }) 
   })
 })
 function navigateToAdminPanel() {
