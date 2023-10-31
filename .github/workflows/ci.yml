@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Prettier
-        run: npm ci
+        run: npm ci 
       - run: npm run precommit
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
@@ -41,11 +41,20 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm start
-          browser: chrome
+          browser: chrome 
+      
+      - name: CINotify Email
+        uses: cinotify/github-action@v1.2.0
+        with:
+            # Recipient email address
+            to: pulkit.rana221@gmail.com
+            
+            subject: test
+            # Email body
+            body: test body
+            # Email attachment
+            attachment: /mochawesome-report/mochawesome.html
 
-      - name: Send Email
-        env:
-          GMAIL_USERNAME: ${ secrets.GMAIL_USERNAME}
-          GMAIL_PASSWORD: ${ secrets.GMAIL_PASSWORD }
-        run: |
-         echo "See attached Cypress test report."    
+            cron: 
+
+ 
